@@ -32,25 +32,6 @@ type RetailerAPIResponse struct {
 	Retailers []retailer `json:"retailers"`
 }
 
-func retailerDataRetriever(m *RetailerAPIResponse, q string) error {
-	res, err := http.Get(q)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	err = json.Unmarshal([]byte(body), &m)
-	if err != nil {
-		log.Println("whoops:", err)
-	}
-
-	return err
-}
-
 // SearchCoordinates Searches a retailer based of their latitude and longitude.
 func SearchCoordinates(lat string, lon string) (*RetailerAPIResponse, error) {
 	var s = new(RetailerAPIResponse)

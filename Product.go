@@ -22,25 +22,6 @@ type ProductAPIResponse struct {
 	Products []product `json:"products"`
 }
 
-func productDataRetriever(m *ProductAPIResponse, q string) error {
-	res, err := http.Get(q)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	err = json.Unmarshal([]byte(body), &m)
-	if err != nil {
-		log.Println("whoops:", err)
-	}
-
-	return err
-}
-
 // GetProducts Returns a list of Products.
 func GetProducts(u string) (*ProductAPIResponse, error) {
 	var s = new(ProductAPIResponse)

@@ -1,12 +1,9 @@
 package grappos
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"log"
-	"net/http"
 )
 
 var baseURL = "http://www.grappos.com/api2/locate.php?1=1&format=json"
@@ -23,20 +20,11 @@ type LocationAPIResponse struct {
 	Locations []location `json:"locations"`
 }
 
-func locationDataRetriever(m *LocationAPIResponse, q string) error {
-	res, err := http.Get(q)
-
-	body, err := ioutil.ReadAll(res.Body)
-
-	err = json.Unmarshal([]byte(body), &m)
-
-	return err
-}
-
 // GetLocations Returns all locations.
 func GetLocations(n int) (*LocationAPIResponse, error) {
 
 	var s = new(LocationAPIResponse)
+
 	queryParams := ""
 
 	if n >= 0 {
