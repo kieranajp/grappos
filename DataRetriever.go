@@ -1,9 +1,7 @@
 package grappos
 
 import (
-	"encoding/json"
 	"io/ioutil"
-	"log"
 	"net/http"
 )
 
@@ -36,7 +34,7 @@ func (u *url) addQueryParam(q string) {
 	u.QueryParams += q
 }
 
-func (u *url) getData() error {
+func (u *url) getData() ([]byte, error) {
 
 	res, err := http.Get(u.buildURL())
 	if err != nil {
@@ -48,58 +46,5 @@ func (u *url) getData() error {
 		panic(err.Error())
 	}
 
-	err = json.Unmarshal([]byte(body), &m)
-	if err != nil {
-		log.Println("whoops:", err)
-	}
-
-	return err
-}
-
-func locationDataRetriever(m *LocationAPIResponse, q string) error {
-	res, err := http.Get(q)
-
-	body, err := ioutil.ReadAll(res.Body)
-
-	err = json.Unmarshal([]byte(body), &m)
-
-	return err
-}
-
-func productDataRetriever(m *ProductAPIResponse, q string) error {
-	res, err := http.Get(q)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	err = json.Unmarshal([]byte(body), &m)
-	if err != nil {
-		log.Println("whoops:", err)
-	}
-
-	return err
-}
-
-func retailerDataRetriever(m *RetailerAPIResponse, q string) error {
-	res, err := http.Get(q)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	err = json.Unmarshal([]byte(body), &m)
-	if err != nil {
-		log.Println("whoops:", err)
-	}
-
-	return err
+	return body, err
 }
